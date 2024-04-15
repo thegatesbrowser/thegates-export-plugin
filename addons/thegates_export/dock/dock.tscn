@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0hadlluk8ea2"]
+
+[ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
+[ext_resource type="Script" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
+
+[node name="TheGatesExport" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Title" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Title"
+clip_text = true
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Desc" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Description"
+
+[node name="DescTextEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DescPreview" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Description Prevew (With BBCode)"
+
+[node name="DescRichTextLabel" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+
+[node name="Thumbnail" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Thumbnail"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Thumbnail image"
+clip_text = true
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Thumbnail"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FileDialog" parent="ScrollContainer/VBoxContainer/Thumbnail" instance=ExtResource("1_qc56w")]
+layout_mode = 2
+filters = PackedStringArray("*.png, *.jpg, *.jpeg ; Image")
+
+[node name="ExportFolder" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/ExportFolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Export folder"
+clip_text = true
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/ExportFolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FileDialog" parent="ScrollContainer/VBoxContainer/ExportFolder" instance=ExtResource("1_qc56w")]
+layout_mode = 2
+file_mode = 2
+access = 2
+
+[node name="ExportButton" type="Button" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Export"
+script = ExtResource("2_punvs")
+
+[connection signal="text_changed" from="ScrollContainer/VBoxContainer/DescTextEdit" to="ScrollContainer/VBoxContainer/DescRichTextLabel" method="set_text"]
+[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Thumbnail/FileDialog" to="ScrollContainer/VBoxContainer/Thumbnail/LineEdit" method="set_text"]
+[connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/LineEdit" method="set_text"]
