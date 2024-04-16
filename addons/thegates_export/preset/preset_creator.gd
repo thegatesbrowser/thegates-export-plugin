@@ -2,7 +2,7 @@
 class_name TGPresetCreator
 extends Node
 
-const PRESET_CFG = "res://addons/thegates_export/export_preset/preset.cfg"
+const PRESET_CFG = "res://addons/thegates_export/preset/preset.cfg"
 const PROJECT_PRESET_CFG = "res://export_presets.cfg"
 
 const PRESET_NAME: String = "TheGates"

@@ -5,6 +5,6 @@
 [node name="FileDialog" type="Button"]
 text = "Pick"
 script = ExtResource("1_nv1wy")
-minsize = Vector2i(900, 600)
+minsize = Vector2i(1000, 600)
 
 [connection signal="pressed" from="." to="." method="open_file_dialog"]

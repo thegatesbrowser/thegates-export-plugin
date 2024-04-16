@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=6 format=3 uid="uid://c0hadlluk8ea2"]
 
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
 [ext_resource type="Script" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
+[ext_resource type="Script" path="res://addons/thegates_export/settings/export_settings_manager.gd" id="3_1g6iw"]
+[ext_resource type="Resource" uid="uid://gh3me1dmrdp7" path="res://addons/thegates_export/settings/export_settings.tres" id="4_c5yno"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qokm5"]
 content_margin_left = 5.0
@@ -54,15 +56,17 @@ clip_text = true
 [node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Title"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "Hello"
 
 [node name="Desc" type="Label" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Description"
 
-[node name="DescTextEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer"]
+[node name="DescLineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "[center]Some Description[/center]"
 
 [node name="DescPreview" type="Label" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -73,24 +77,26 @@ custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
+text = "[center]Some Description[/center]"
 fit_content = true
 
-[node name="Thumbnail" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Image" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Thumbnail"]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Image"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Thumbnail image"
 clip_text = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Thumbnail"]
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Image"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "res://icon.svg"
 
-[node name="FileDialog" parent="ScrollContainer/VBoxContainer/Thumbnail" instance=ExtResource("1_qc56w")]
+[node name="FileDialog" parent="ScrollContainer/VBoxContainer/Image" instance=ExtResource("1_qc56w")]
 layout_mode = 2
-filters = PackedStringArray("*.png, *.jpg, *.jpeg ; Image")
+filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
 [node name="ExportFolder" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -104,6 +110,7 @@ clip_text = true
 [node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/ExportFolder"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "/media/common/Projects/thegates-folder/thegates-export-plugin/export"
 
 [node name="FileDialog" parent="ScrollContainer/VBoxContainer/ExportFolder" instance=ExtResource("1_qc56w")]
 layout_mode = 2
@@ -122,6 +129,16 @@ script = ExtResource("2_punvs")
 pack_path = NodePath("../ExportFolder/LineEdit")
 pack_name = "project.zip"
 
-[connection signal="text_changed" from="ScrollContainer/VBoxContainer/DescTextEdit" to="ScrollContainer/VBoxContainer/DescRichTextLabel" method="set_text"]
-[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Thumbnail/FileDialog" to="ScrollContainer/VBoxContainer/Thumbnail/LineEdit" method="set_text"]
+[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "image", "export_folder")]
+script = ExtResource("3_1g6iw")
+settings = ExtResource("4_c5yno")
+title = NodePath("../ScrollContainer/VBoxContainer/Title/LineEdit")
+description = NodePath("../ScrollContainer/VBoxContainer/DescLineEdit")
+image = NodePath("../ScrollContainer/VBoxContainer/Image/LineEdit")
+export_folder = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/LineEdit")
+
+[connection signal="text_changed" from="ScrollContainer/VBoxContainer/DescLineEdit" to="ScrollContainer/VBoxContainer/DescRichTextLabel" method="set_text"]
+[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/FileDialog" to="ScrollContainer/VBoxContainer/Image/LineEdit" method="set_text"]
+[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/FileDialog" to="ScrollContainer/VBoxContainer/Image/LineEdit" method="_text_changed" unbinds=1]
 [connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/LineEdit" method="set_text"]
+[connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/LineEdit" method="_text_changed" unbinds=1]
