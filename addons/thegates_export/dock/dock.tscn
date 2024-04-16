@@ -1,9 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=4 format=3 uid="uid://c0hadlluk8ea2"]
 
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
 [ext_resource type="Script" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
 
-[node name="TheGatesExport" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qokm5"]
+content_margin_left = 5.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Export" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +34,13 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="TheGates" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_qokm5")
+text = "Export Project to TheGates"
+horizontal_alignment = 1
 
 [node name="Title" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -92,11 +110,17 @@ layout_mode = 2
 file_mode = 2
 access = 2
 
-[node name="ExportButton" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Space" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ExportButton" type="Button" parent="ScrollContainer/VBoxContainer" node_paths=PackedStringArray("pack_path")]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Export"
 script = ExtResource("2_punvs")
+pack_path = NodePath("../ExportFolder/LineEdit")
+pack_name = "project.zip"
 
 [connection signal="text_changed" from="ScrollContainer/VBoxContainer/DescTextEdit" to="ScrollContainer/VBoxContainer/DescRichTextLabel" method="set_text"]
 [connection signal="file_selected" from="ScrollContainer/VBoxContainer/Thumbnail/FileDialog" to="ScrollContainer/VBoxContainer/Thumbnail/LineEdit" method="set_text"]
