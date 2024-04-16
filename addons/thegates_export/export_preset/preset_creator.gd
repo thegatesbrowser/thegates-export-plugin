@@ -36,7 +36,6 @@ func is_preset_added() -> bool:
 	for section in sections:
 		var keys = cfg.get_section_keys(section)
 		if keys.has("name") and cfg.get_value(section, "name") == PRESET_NAME:
-			print("Export preset exists")
 			return true
 	
 	return false
