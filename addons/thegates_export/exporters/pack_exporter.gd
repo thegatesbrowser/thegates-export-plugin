@@ -17,6 +17,8 @@ func _ready() -> void:
 
 
 func export(settings: TGExportSettings) -> void:
+	if not is_valid(settings): return
+	
 	var preset_name = preset_creator.create_and_get_preset()
 	var path = settings.get_pack_path()
 	var args = ["--headless", "--export-pack", preset_name, path]
@@ -39,6 +41,14 @@ func check_status() -> void:
 	pid = -1
 	timer.stop()
 	print("Done!")
+
+
+func is_valid(settings: TGExportSettings) -> bool:
+	if settings.export_folder.is_empty():
+		printerr("Export folder is not chosen")
+		return false
+	
+	return true
 
 
 func is_in_progress() -> bool:

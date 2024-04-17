@@ -68,7 +68,7 @@ size_flags_horizontal = 3
 
 [node name="DescPreview" type="Label" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "Description Prevew (With BBCode)"
+text = "Prevew (With BBCode)"
 
 [node name="DescRichTextLabel" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 90)
