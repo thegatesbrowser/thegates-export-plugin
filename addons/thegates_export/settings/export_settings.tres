@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_4i6s3")
-title = "My project"
-description = "Some day there will be my project description :)"
+title = ""
+description = ""
 image = ""
-export_folder = "export"
+export_folder = ""
