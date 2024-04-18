@@ -171,10 +171,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
 text = "Links:
-- [url=https://thegates.readthedocs.io]TheGates browser[/url]
+- [url=https://thegates.readthedocs.io]TheGates Docs[/url]
 - [url=https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#reference]Godot BBCode[/url]
 - [url=https://github.com/thegatesbrowser/thegates-export-plugin]Improve this plugin[/url]
-- [url=https://tinyurl.com/thegatesemail]Need server?[/url]"
+- [url=https://tinyurl.com/thegatesemail]Need server? Send email[/url]"
 fit_content = true
 script = ExtResource("4_s4553")
 
