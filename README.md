@@ -1,4 +1,4 @@
-# thegates-export-plugin
+# TheGates Export Plugin
 
 This plugin allows you easily export your project to TheGates browser
 

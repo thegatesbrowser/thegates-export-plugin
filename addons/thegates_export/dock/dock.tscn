@@ -54,7 +54,7 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_qokm5")
-text = "Export Project to TheGates"
+text = "Export to TheGates browser"
 horizontal_alignment = 1
 
 [node name="Title" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
@@ -73,7 +73,6 @@ clip_text = true
 [node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Title/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "My project"
 
 [node name="Description" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -90,7 +89,6 @@ text = "Description"
 [node name="DescLineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Description/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Some day there will be my project description :)"
 
 [node name="DescPreview" type="Label" parent="ScrollContainer/VBoxContainer/Description/VBoxContainer"]
 layout_mode = 2
@@ -101,7 +99,6 @@ custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "Some day there will be my project description :)"
 fit_content = true
 
 [node name="Image" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
@@ -142,7 +139,6 @@ clip_text = true
 [node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "export"
 editable = false
 
 [node name="FileDialog" parent="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer" instance=ExtResource("1_qc56w")]
