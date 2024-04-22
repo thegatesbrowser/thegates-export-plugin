@@ -11,7 +11,7 @@ var dock: Control
 func _enter_tree():
 	add_autoload_singleton(EXPORT_AUTOLOAD_NAME, EXPORT_GD)
 	
-	dock = preload(DOCK_TSCN).instantiate()
+	dock = load(DOCK_TSCN).instantiate()
 	add_control_to_dock(DOCK_SLOT_RIGHT_UL, dock)
 
 
