@@ -1,5 +1,5 @@
 @tool
-#class_name TGExport
+class_name TGExport
 extends Node
 
 var pack_exporter: TGPackExporter
