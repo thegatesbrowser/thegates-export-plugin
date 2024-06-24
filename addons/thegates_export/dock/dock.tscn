@@ -1,10 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=14 format=3 uid="uid://c0hadlluk8ea2"]
 
+[ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
+[ext_resource type="FontFile" uid="uid://dlsxr6x8ly8o1" path="res://addons/thegates_export/fonts/Inter-Bold.otf" id="2_exlpp"]
 [ext_resource type="Script" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
 [ext_resource type="Script" path="res://addons/thegates_export/settings/export_settings_manager.gd" id="3_1g6iw"]
+[ext_resource type="FontFile" uid="uid://bhhqmrno12ef5" path="res://addons/thegates_export/fonts/Inter-Italic.otf" id="3_w6f2b"]
+[ext_resource type="FontFile" uid="uid://vedg7uktv7in" path="res://addons/thegates_export/fonts/Inter-BoldItalic.otf" id="4_brjrt"]
 [ext_resource type="Resource" uid="uid://gh3me1dmrdp7" path="res://addons/thegates_export/settings/export_settings.tres" id="4_c5yno"]
 [ext_resource type="Script" path="res://addons/thegates_export/dock/link_opener.gd" id="4_s4553"]
+[ext_resource type="FontFile" uid="uid://c34vdr4dfgjti" path="res://addons/thegates_export/fonts/Monospace.ttf" id="5_ytjav"]
+
+[sub_resource type="Theme" id="Theme_qcuvx"]
+default_font = ExtResource("1_pslyv")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qokm5"]
 content_margin_left = 5.0
@@ -36,6 +44,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_qcuvx")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -98,6 +107,11 @@ text = "Prevew (With BBCode)"
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/normal_font = ExtResource("1_pslyv")
+theme_override_fonts/bold_font = ExtResource("2_exlpp")
+theme_override_fonts/italics_font = ExtResource("3_w6f2b")
+theme_override_fonts/bold_italics_font = ExtResource("4_brjrt")
+theme_override_fonts/mono_font = ExtResource("5_ytjav")
 bbcode_enabled = true
 fit_content = true
 
