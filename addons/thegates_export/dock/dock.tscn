@@ -191,13 +191,15 @@ script = ExtResource("4_s4553")
 [node name="Control" type="Control" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "image", "export_folder")]
+[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "image", "export_folder", "image_fd", "export_folder_fd")]
 script = ExtResource("3_1g6iw")
 settings = ExtResource("4_c5yno")
 title = NodePath("../ScrollContainer/VBoxContainer/Title/VBoxContainer/LineEdit")
 description = NodePath("../ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit")
 image = NodePath("../ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit")
 export_folder = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit")
+image_fd = NodePath("../ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog")
+export_folder_fd = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog")
 
 [connection signal="text_changed" from="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit" to="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescRichTextLabel" method="set_text"]
 [connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="set_text"]

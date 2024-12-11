@@ -1,4 +1,5 @@
 @tool
+class_name TGFileDialog
 extends Control
 
 signal dir_selected(dir: String)
