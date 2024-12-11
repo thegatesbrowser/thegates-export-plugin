@@ -8,7 +8,7 @@ It will export and create all the necessary files in your chosen folder
 You can host them locally or on the server \
 If you need one just email us on thegates.browser@gmail.com
 
-TheGates Docs: https://thegates.readthedocs.io
+TheGates Docs: https://docs.thegates.io/
 
 ## Screenshots
 

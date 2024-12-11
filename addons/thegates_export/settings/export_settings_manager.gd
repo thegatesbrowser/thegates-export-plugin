@@ -24,7 +24,7 @@ func set_initial() -> void:
 	image.text = settings.image
 	export_folder.text = settings.export_folder
 	
-	title._text_changed()
-	description._text_changed()
-	image._text_changed()
-	export_folder._text_changed()
+	title.text_changed.emit()
+	description.text_changed.emit()
+	image.text_changed.emit()
+	export_folder.text_changed.emit()

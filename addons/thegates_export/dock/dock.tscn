@@ -108,10 +108,10 @@ custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/normal_font = ExtResource("1_pslyv")
-theme_override_fonts/bold_font = ExtResource("2_exlpp")
+theme_override_fonts/mono_font = ExtResource("5_ytjav")
 theme_override_fonts/italics_font = ExtResource("3_w6f2b")
 theme_override_fonts/bold_italics_font = ExtResource("4_brjrt")
-theme_override_fonts/mono_font = ExtResource("5_ytjav")
+theme_override_fonts/bold_font = ExtResource("2_exlpp")
 bbcode_enabled = true
 fit_content = true
 
@@ -201,6 +201,4 @@ export_folder = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxCont
 
 [connection signal="text_changed" from="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit" to="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescRichTextLabel" method="set_text"]
 [connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="set_text"]
-[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="_text_changed" unbinds=1]
 [connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit" method="set_text"]
-[connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit" method="_text_changed" unbinds=1]
