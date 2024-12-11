@@ -19,7 +19,7 @@ func _ready() -> void:
 	image.text_changed.connect(func(text): settings.image = text)
 	image_fd.file_selected.connect(func(path): settings.image = path)
 	export_folder.text_changed.connect(func(text): settings.export_folder = text)
-	export_folder_fd.dir_selected.connect(func(dir): settings.image = dir)
+	export_folder_fd.dir_selected.connect(func(dir): settings.export_folder = dir)
 
 
 func set_initial() -> void:
