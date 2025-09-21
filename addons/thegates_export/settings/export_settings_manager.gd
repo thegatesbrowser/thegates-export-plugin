@@ -5,8 +5,10 @@ extends Node
 
 @export var title: LineEdit
 @export var description: LineEdit
+@export var icon: LineEdit
 @export var image: LineEdit
 @export var export_folder: LineEdit
+@export var icon_fd: TGFileDialog
 @export var image_fd: TGFileDialog
 @export var export_folder_fd: TGFileDialog
 
@@ -16,6 +18,8 @@ func _ready() -> void:
 	
 	title.text_changed.connect(func(text): settings.title = text)
 	description.text_changed.connect(func(text): settings.description = text)
+	icon.text_changed.connect(func(text): settings.icon = text)
+	icon_fd.file_selected.connect(func(path): settings.icon = path)
 	image.text_changed.connect(func(text): settings.image = text)
 	image_fd.file_selected.connect(func(path): settings.image = path)
 	export_folder.text_changed.connect(func(text): settings.export_folder = text)
@@ -25,10 +29,12 @@ func _ready() -> void:
 func set_initial() -> void:
 	title.text = settings.title
 	description.text = settings.description
+	icon.text = settings.icon
 	image.text = settings.image
 	export_folder.text = settings.export_folder
-	
+
 	title.text_changed.emit()
 	description.text_changed.emit()
+	icon.text_changed.emit()
 	image.text_changed.emit()
 	export_folder.text_changed.emit()

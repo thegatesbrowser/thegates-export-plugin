@@ -3,12 +3,12 @@
 [ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
 [ext_resource type="FontFile" uid="uid://dlsxr6x8ly8o1" path="res://addons/thegates_export/fonts/Inter-Bold.otf" id="2_exlpp"]
-[ext_resource type="Script" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
-[ext_resource type="Script" path="res://addons/thegates_export/settings/export_settings_manager.gd" id="3_1g6iw"]
+[ext_resource type="Script" uid="uid://pg3o8niqii44" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
+[ext_resource type="Script" uid="uid://cvu4ub5hatoth" path="res://addons/thegates_export/settings/export_settings_manager.gd" id="3_1g6iw"]
 [ext_resource type="FontFile" uid="uid://bhhqmrno12ef5" path="res://addons/thegates_export/fonts/Inter-Italic.otf" id="3_w6f2b"]
 [ext_resource type="FontFile" uid="uid://vedg7uktv7in" path="res://addons/thegates_export/fonts/Inter-BoldItalic.otf" id="4_brjrt"]
 [ext_resource type="Resource" uid="uid://gh3me1dmrdp7" path="res://addons/thegates_export/settings/export_settings.tres" id="4_c5yno"]
-[ext_resource type="Script" path="res://addons/thegates_export/dock/link_opener.gd" id="4_s4553"]
+[ext_resource type="Script" uid="uid://bjdl8cdlfuumx" path="res://addons/thegates_export/dock/link_opener.gd" id="4_s4553"]
 [ext_resource type="FontFile" uid="uid://c34vdr4dfgjti" path="res://addons/thegates_export/fonts/Monospace.ttf" id="5_ytjav"]
 
 [sub_resource type="Theme" id="Theme_qcuvx"]
@@ -108,12 +108,34 @@ custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/normal_font = ExtResource("1_pslyv")
-theme_override_fonts/mono_font = ExtResource("5_ytjav")
-theme_override_fonts/italics_font = ExtResource("3_w6f2b")
-theme_override_fonts/bold_italics_font = ExtResource("4_brjrt")
 theme_override_fonts/bold_font = ExtResource("2_exlpp")
+theme_override_fonts/bold_italics_font = ExtResource("4_brjrt")
+theme_override_fonts/italics_font = ExtResource("3_w6f2b")
+theme_override_fonts/mono_font = ExtResource("5_ytjav")
 bbcode_enabled = true
 fit_content = true
+
+[node name="Icon" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jy1k3")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/Icon"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/Icon/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Icon"
+clip_text = true
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Icon/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="FileDialog" parent="ScrollContainer/VBoxContainer/Icon/VBoxContainer" instance=ExtResource("1_qc56w")]
+layout_mode = 2
+filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
 [node name="Image" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -181,7 +203,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
 text = "Links:
-- [url=https://thegates.readthedocs.io]TheGates Docs[/url]
+- [url=https://thegates-docs.super.site]TheGates Docs[/url]
 - [url=https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#reference]Godot BBCode[/url]
 - [url=https://github.com/thegatesbrowser/thegates-export-plugin]Improve this plugin[/url]
 - [url=https://tinyurl.com/thegatesemail]Need server? Send email[/url]"
@@ -191,16 +213,19 @@ script = ExtResource("4_s4553")
 [node name="Control" type="Control" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "image", "export_folder", "image_fd", "export_folder_fd")]
+[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "export_folder", "icon_fd", "image_fd", "export_folder_fd")]
 script = ExtResource("3_1g6iw")
 settings = ExtResource("4_c5yno")
 title = NodePath("../ScrollContainer/VBoxContainer/Title/VBoxContainer/LineEdit")
 description = NodePath("../ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit")
+icon = NodePath("../ScrollContainer/VBoxContainer/Icon/VBoxContainer/LineEdit")
 image = NodePath("../ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit")
 export_folder = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit")
+icon_fd = NodePath("../ScrollContainer/VBoxContainer/Icon/VBoxContainer/FileDialog")
 image_fd = NodePath("../ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog")
 export_folder_fd = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog")
 
 [connection signal="text_changed" from="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit" to="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescRichTextLabel" method="set_text"]
+[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Icon/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Icon/VBoxContainer/LineEdit" method="set_text"]
 [connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="set_text"]
 [connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit" method="set_text"]
