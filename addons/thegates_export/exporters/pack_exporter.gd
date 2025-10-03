@@ -52,4 +52,4 @@ func is_valid(settings: TGExportSettings) -> bool:
 
 
 func is_in_progress() -> bool:
-	return OS.is_process_running(pid)
+	return pid != -1 and OS.is_process_running(pid)
