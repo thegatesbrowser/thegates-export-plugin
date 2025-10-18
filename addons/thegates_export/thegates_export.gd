@@ -27,6 +27,7 @@ func on_scene_saved(scene_path: String):
 func add_dock():
 	dock = load(DOCK_TSCN).instantiate()
 	add_control_to_dock(DOCK_SLOT_RIGHT_UL, dock)
+	call_deferred("activate_dock_tab")
 
 
 func remove_dock():
@@ -35,3 +36,20 @@ func remove_dock():
 		dock.free()
 	
 	dock = null
+
+
+func activate_dock_tab():
+	if not is_instance_valid(dock):
+		return
+
+	var tab_container: Node = dock.get_parent()
+	while tab_container and not (tab_container is TabContainer):
+		tab_container = tab_container.get_parent()
+
+	if tab_container and tab_container is TabContainer:
+		var tab_container_tc := tab_container as TabContainer
+		var tab_count := tab_container_tc.get_tab_count()
+		for i in tab_count:
+			if tab_container_tc.get_tab_control(i) == dock:
+				tab_container_tc.current_tab = i
+				return

@@ -49,7 +49,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(1, 0.87, 0.4, 1)
 }
 
-[node name="TGExport" type="Control" node_paths=PackedStringArray("export_button", "published_url")]
+[node name="Export" type="Control" node_paths=PackedStringArray("export_button", "published_url")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
