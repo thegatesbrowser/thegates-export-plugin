@@ -110,13 +110,12 @@ theme_override_fonts/bold_italics_font = ExtResource("4_brjrt")
 theme_override_fonts/italics_font = ExtResource("3_w6f2b")
 theme_override_fonts/mono_font = ExtResource("5_ytjav")
 bbcode_enabled = true
-text = "(Description preview)"
+text = "[color=DIM_GRAY][i]Description preview with BBCode[/i][/color]"
 fit_content = true
 script = ExtResource("6_e8n44")
 description = NodePath("../DescLineEdit")
 
 [node name="Space3" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -212,24 +211,27 @@ script = ExtResource("2_punvs")
 settings = ExtResource("4_c5yno")
 
 [node name="Space2" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="LinksRichTextLabel" type="RichTextLabel" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="LinksRichTextLabel" type="RichTextLabel" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/bold_font = ExtResource("2_exlpp")
 bbcode_enabled = true
-text = "Links:
+text = "[b]Links:[/b]
 - [url=https://docs.thegates.io]TheGates Docs[/url]
 - [url=https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#reference]Godot BBCode[/url]
 - [url=https://github.com/thegatesbrowser/thegates-export-plugin]Improve this plugin[/url]
 - [url=https://tinyurl.com/thegatesemail]Need server? Send email[/url]"
 fit_content = true
 script = ExtResource("4_s4553")
-
-[node name="Control" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
 
 [node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "icon_fd", "image_fd", "discoverable")]
 script = ExtResource("3_1g6iw")

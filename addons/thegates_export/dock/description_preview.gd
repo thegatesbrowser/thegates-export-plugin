@@ -10,4 +10,4 @@ func _ready() -> void:
 
 
 func set_text(_text: String) -> void:
-	text = _text if not _text.is_empty() else "(Description preview)"
+	text = _text if not _text.is_empty() else "[color=DIM_GRAY][i]Description preview with BBCode[/i][/color]"
