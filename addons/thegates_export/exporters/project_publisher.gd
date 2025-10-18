@@ -36,26 +36,26 @@ func ensure_project_token(settings: TGExportSettings) -> String:
 		printerr("Create project request failed to start: %s" % error)
 		request.queue_free()
 		return ""
-
+	
 	var completed = await request.request_completed
 	request.queue_free()
 	var result: int = completed[0]
 	var response_code: int = completed[1]
 	var _headers: PackedStringArray = completed[2]
 	var response_body: PackedByteArray = completed[3]
-
+	
 	if result != HTTPRequest.RESULT_SUCCESS:
 		printerr("Create project request failed: result=%s" % result)
 		return ""
-
+	
 	if response_code != 201 and response_code != 200:
 		printerr("Create project request returned HTTP %s" % response_code)
 		return ""
-
+	
 	var text := response_body.get_string_from_utf8()
 	if text.is_empty():
 		return ""
-
+	
 	var json := JSON.new()
 	var parse_error := json.parse(text)
 	if parse_error != OK:
@@ -84,7 +84,6 @@ func get_create_endpoint() -> String:
 
 func get_check_endpoint() -> String:
 	return DEFAULT_API_BASE_URL + GET_PUBLISHED_API_PATH
-
 
 
 func get_token(settings: TGExportSettings) -> String:
@@ -121,65 +120,65 @@ func save_token(settings: TGExportSettings, token: String) -> void:
 func publish(settings: TGExportSettings) -> String:
 	if not is_valid(settings):
 		return ""
-
+	
 	var file_payloads: Array = []
-
+	
 	var gate_payload := build_file_payload(settings.get_gate_path())
 	if not gate_payload.is_empty():
 		file_payloads.append(gate_payload)
-
+	
 	var pack_payload := build_file_payload(settings.get_pack_path())
 	if not pack_payload.is_empty():
 		file_payloads.append(pack_payload)
-
+	
 	var icon_payload := build_file_payload(settings.get_icon_path())
 	if not icon_payload.is_empty():
 		file_payloads.append(icon_payload)
-
+	
 	var image_payload := build_file_payload(settings.get_image_path())
 	if not image_payload.is_empty():
 		file_payloads.append(image_payload)
-
+	
 	if file_payloads.is_empty():
 		printerr("Publishing aborted: no export artifacts found")
 		return ""
-
+	
 	var token := await load_token(settings)
 	if token.is_empty():
 		return ""
-
+	
 	var form_data := {
 		FORM_FIELD_TOKEN: token,
 	}
-
+	
 	var boundary := "----TheGatesBoundary%d" % Time.get_ticks_usec()
 	var body := build_multipart_body(boundary, form_data, file_payloads)
 	var headers := PackedStringArray([
 		"Content-Type: multipart/form-data; boundary=%s" % boundary,
 		"Accept: application/json"
 	])
-
+	
 	var request := HTTPRequest.new()
 	add_child(request)
-
+	
 	var error := request.request_raw(get_publish_endpoint(), headers, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		printerr("Publish request failed to start: %s" % error)
 		request.queue_free()
 		return ""
-
+	
 	var completed = await request.request_completed
 	request.queue_free()
-
+	
 	var result: int = completed[0]
 	var response_code: int = completed[1]
 	var _headers: PackedStringArray = completed[2]
 	var response_body: PackedByteArray = completed[3]
-
+	
 	if result != HTTPRequest.RESULT_SUCCESS:
 		printerr("Publish request failed: result=%s" % result)
 		return ""
-
+	
 	return process_publish_response(result, response_code, response_body)
 
 
@@ -281,7 +280,6 @@ func guess_mime_type(filename: String) -> String:
 
 
 func process_publish_response(result: int, response_code: int, body: PackedByteArray) -> String:
-	print("Publish completed: result=%s, http=%s" % [result, response_code])
 	var text := body.get_string_from_utf8()
 	if text.is_empty():
 		return ""
@@ -296,6 +294,7 @@ func process_publish_response(result: int, response_code: int, body: PackedByteA
 			if response.has("url") and typeof(response["url"]) == TYPE_STRING:
 				url_value = str(response["url"])
 			if not url_value.is_empty():
+				print("Successfully published the project")
 				return url_value
 			# Fallthrough: print body for diagnostics if structure unexpected
 			print(text)
@@ -307,7 +306,6 @@ func process_publish_response(result: int, response_code: int, body: PackedByteA
 		printerr("Publishing failed with HTTP status %s" % response_code)
 	
 	return ""
-
 
 
 func check_project(settings: TGExportSettings) -> String:

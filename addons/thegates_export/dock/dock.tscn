@@ -305,8 +305,7 @@ bbcode_enabled = true
 text = "[b]Links:[/b]
 - [url=https://docs.thegates.io]TheGates Docs[/url]
 - [url=https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#reference]Godot BBCode[/url]
-- [url=https://github.com/thegatesbrowser/thegates-export-plugin]Improve this plugin[/url]
-- [url=https://tinyurl.com/thegatesemail]Need server? Send email[/url]"
+- [url=https://github.com/thegatesbrowser/thegates-export-plugin]Improve this plugin[/url]"
 fit_content = true
 script = ExtResource("4_s4553")
 

@@ -2,6 +2,7 @@
 class_name TGExport
 extends Node
 
+var prepare_folder: TGPrepareFolder
 var pack_exporter: TGPackExporter
 var icon_exporter: TGIconExporter
 var image_exporter: TGImageExporter
@@ -10,12 +11,14 @@ var project_publisher: TGProjectPublisher
 
 
 func _ready() -> void:
+	prepare_folder = TGPrepareFolder.new()
 	pack_exporter = TGPackExporter.new()
 	icon_exporter = TGIconExporter.new()
 	image_exporter = TGImageExporter.new()
 	gate_exporter = TGGateExporter.new()
 	project_publisher = TGProjectPublisher.new()
 	
+	add_child(prepare_folder)
 	add_child(pack_exporter)
 	add_child(icon_exporter)
 	add_child(image_exporter)
@@ -37,11 +40,14 @@ func export_project(settings: TGExportSettings) -> String:
 		return ""
 	
 	print("\n=================== Starting export ===================")
-	pack_exporter.export(settings)
+	
+	prepare_folder.prepare(settings)
+	await pack_exporter.export(settings)
+	
 	icon_exporter.export(settings)
 	image_exporter.export(settings)
 	gate_exporter.export(settings)
-
+	
 	print("Publishing to TheGates...")
 	var published_url = await project_publisher.publish(settings)
 	
