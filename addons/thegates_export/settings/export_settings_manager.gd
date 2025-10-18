@@ -33,8 +33,8 @@ func set_initial() -> void:
 	image.text = settings.image
 	export_folder.text = settings.export_folder
 
-	title.text_changed.emit()
-	description.text_changed.emit()
-	icon.text_changed.emit()
-	image.text_changed.emit()
-	export_folder.text_changed.emit()
+	title.text_changed.emit(title.text)
+	description.text_changed.emit(description.text)
+	icon.text_changed.emit(icon.text)
+	image.text_changed.emit(image.text)
+	export_folder.text_changed.emit(export_folder.text)

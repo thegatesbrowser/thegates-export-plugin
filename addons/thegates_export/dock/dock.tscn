@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=19 format=3 uid="uid://c0hadlluk8ea2"]
 
 [ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://gh3me1dmrdp7" path="res://addons/thegates_export/settings/export_settings.tres" id="4_c5yno"]
 [ext_resource type="Script" uid="uid://bjdl8cdlfuumx" path="res://addons/thegates_export/dock/link_opener.gd" id="4_s4553"]
 [ext_resource type="FontFile" uid="uid://c34vdr4dfgjti" path="res://addons/thegates_export/fonts/Monospace.ttf" id="5_ytjav"]
+[ext_resource type="Script" uid="uid://dkep2i23vgwe" path="res://addons/thegates_export/dock/description_preview.gd" id="6_e8n44"]
 
 [sub_resource type="Theme" id="Theme_qcuvx"]
 default_font = ExtResource("1_pslyv")
@@ -25,17 +26,15 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jy1k3"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.282353, 0.282353, 0.282353, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8n44"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1iqyx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48a6l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jvh6t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdhlt"]
 
 [node name="Export" type="Control"]
 layout_mode = 3
@@ -54,56 +53,57 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TheGates" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TheGates" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_qokm5")
 text = "Export to TheGates browser"
 horizontal_alignment = 1
 
-[node name="Title" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Title" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jy1k3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_e8n44")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/Title"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/Title"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Title/VBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/Title/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Title"
 clip_text = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Title/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/Title/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Description" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Description" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jy1k3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1iqyx")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/Description"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/Description"]
 layout_mode = 2
 
-[node name="Desc" type="Label" parent="ScrollContainer/VBoxContainer/Description/VBoxContainer"]
+[node name="Desc" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/Description/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Description"
 
-[node name="DescLineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Description/VBoxContainer"]
+[node name="DescLineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/Description/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DescPreview" type="Label" parent="ScrollContainer/VBoxContainer/Description/VBoxContainer"]
-layout_mode = 2
-text = "Prevew (With BBCode)"
-
-[node name="DescRichTextLabel" type="RichTextLabel" parent="ScrollContainer/VBoxContainer/Description/VBoxContainer"]
+[node name="DescRichTextLabel" type="RichTextLabel" parent="ScrollContainer/MarginContainer/VBoxContainer/Description/VBoxContainer" node_paths=PackedStringArray("description")]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -114,90 +114,93 @@ theme_override_fonts/italics_font = ExtResource("3_w6f2b")
 theme_override_fonts/mono_font = ExtResource("5_ytjav")
 bbcode_enabled = true
 fit_content = true
+script = ExtResource("6_e8n44")
+description = NodePath("../DescLineEdit")
 
-[node name="Icon" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Icon" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jy1k3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_48a6l")
 
-[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/Icon"]
+[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/Icon"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/Icon/VBoxContainer"]
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Icon"
 clip_text = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Icon/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="FileDialog" parent="ScrollContainer/VBoxContainer/Icon/VBoxContainer" instance=ExtResource("1_qc56w")]
+[node name="FileDialog" parent="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
-[node name="Image" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Image" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jy1k3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jvh6t")
 
-[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/Image"]
+[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/Image"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/Image/VBoxContainer"]
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Thumbnail image"
 clip_text = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Image/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="FileDialog" parent="ScrollContainer/VBoxContainer/Image/VBoxContainer" instance=ExtResource("1_qc56w")]
+[node name="FileDialog" parent="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
-[node name="ExportFolder" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="ExportFolder" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jy1k3")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_bdhlt")
 
-[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/ExportFolder"]
+[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer"]
+[node name="Label3" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Export folder"
 clip_text = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="FileDialog" parent="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer" instance=ExtResource("1_qc56w")]
+[node name="FileDialog" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
 file_mode = 2
 access = 2
 
-[node name="Space" type="Control" parent="ScrollContainer/VBoxContainer"]
+[node name="Space" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="ExportButton" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="ExportButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Export"
 script = ExtResource("2_punvs")
 settings = ExtResource("4_c5yno")
 
-[node name="Space2" type="Control" parent="ScrollContainer/VBoxContainer"]
+[node name="Space2" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 
-[node name="LinksRichTextLabel" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+[node name="LinksRichTextLabel" type="RichTextLabel" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -210,22 +213,21 @@ text = "Links:
 fit_content = true
 script = ExtResource("4_s4553")
 
-[node name="Control" type="Control" parent="ScrollContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "export_folder", "icon_fd", "image_fd", "export_folder_fd")]
 script = ExtResource("3_1g6iw")
 settings = ExtResource("4_c5yno")
-title = NodePath("../ScrollContainer/VBoxContainer/Title/VBoxContainer/LineEdit")
-description = NodePath("../ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit")
-icon = NodePath("../ScrollContainer/VBoxContainer/Icon/VBoxContainer/LineEdit")
-image = NodePath("../ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit")
-export_folder = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit")
-icon_fd = NodePath("../ScrollContainer/VBoxContainer/Icon/VBoxContainer/FileDialog")
-image_fd = NodePath("../ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog")
-export_folder_fd = NodePath("../ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog")
+title = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Title/VBoxContainer/LineEdit")
+description = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit")
+icon = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/LineEdit")
+image = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/LineEdit")
+export_folder = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit")
+icon_fd = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/FileDialog")
+image_fd = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/FileDialog")
+export_folder_fd = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog")
 
-[connection signal="text_changed" from="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit" to="ScrollContainer/VBoxContainer/Description/VBoxContainer/DescRichTextLabel" method="set_text"]
-[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Icon/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Icon/VBoxContainer/LineEdit" method="set_text"]
-[connection signal="file_selected" from="ScrollContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="set_text"]
-[connection signal="dir_selected" from="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog" to="ScrollContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit" method="set_text"]
+[connection signal="file_selected" from="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/FileDialog" to="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/LineEdit" method="set_text"]
+[connection signal="file_selected" from="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="set_text"]
+[connection signal="dir_selected" from="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog" to="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit" method="set_text"]
