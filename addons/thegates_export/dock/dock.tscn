@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=18 format=3 uid="uid://c0hadlluk8ea2"]
 
 [ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
@@ -33,8 +33,6 @@ corner_radius_bottom_left = 3
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48a6l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jvh6t"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdhlt"]
 
 [node name="Export" type="Control"]
 layout_mode = 3
@@ -113,9 +111,14 @@ theme_override_fonts/bold_italics_font = ExtResource("4_brjrt")
 theme_override_fonts/italics_font = ExtResource("3_w6f2b")
 theme_override_fonts/mono_font = ExtResource("5_ytjav")
 bbcode_enabled = true
+text = "(Description preview)"
 fit_content = true
 script = ExtResource("6_e8n44")
 description = NodePath("../DescLineEdit")
+
+[node name="Space3" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
 [node name="Icon" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -161,28 +164,21 @@ editable = false
 layout_mode = 2
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
-[node name="ExportFolder" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Discoverable" type="MarginContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_bdhlt")
+theme_override_constants/margin_top = 8
 
-[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder"]
+[node name="VBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/Discoverable"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer"]
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/Discoverable/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Export folder"
+text = "Discoverable (should appear in search)"
 clip_text = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer"]
+[node name="CheckButton" type="CheckButton" parent="ScrollContainer/MarginContainer/VBoxContainer/Discoverable/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-editable = false
-
-[node name="FileDialog" parent="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer" instance=ExtResource("1_qc56w")]
-layout_mode = 2
-file_mode = 2
-access = 2
 
 [node name="Space" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
@@ -216,18 +212,16 @@ script = ExtResource("4_s4553")
 [node name="Control" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "export_folder", "icon_fd", "image_fd", "export_folder_fd")]
+[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "icon_fd", "image_fd", "discoverable")]
 script = ExtResource("3_1g6iw")
 settings = ExtResource("4_c5yno")
 title = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Title/VBoxContainer/LineEdit")
 description = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Description/VBoxContainer/DescLineEdit")
 icon = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/LineEdit")
 image = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/LineEdit")
-export_folder = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit")
 icon_fd = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/FileDialog")
 image_fd = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/FileDialog")
-export_folder_fd = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog")
+discoverable = NodePath("../ScrollContainer/MarginContainer/VBoxContainer/Discoverable/VBoxContainer/CheckButton")
 
 [connection signal="file_selected" from="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/FileDialog" to="ScrollContainer/MarginContainer/VBoxContainer/Icon/VBoxContainer/LineEdit" method="set_text"]
 [connection signal="file_selected" from="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/FileDialog" to="ScrollContainer/MarginContainer/VBoxContainer/Image/VBoxContainer/LineEdit" method="set_text"]
-[connection signal="dir_selected" from="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/FileDialog" to="ScrollContainer/MarginContainer/VBoxContainer/ExportFolder/VBoxContainer/LineEdit" method="set_text"]

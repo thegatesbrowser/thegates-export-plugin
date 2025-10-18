@@ -6,12 +6,14 @@ extends Resource
 @export var description: String
 @export var icon: String
 @export var image: String
-@export var export_folder: String
+@export var discoverable: bool = false # TODO: set later
 
 const PACK_NAME = "project.zip"
 const ICON_NAME = "icon.%s"
 const IMAGE_NAME = "image.%s"
 const GATE_NAME = "project.gate"
+
+var export_folder: String = ProjectSettings.globalize_path("res://addons/thegates_export/export")
 
 var pack_path: String : get = get_pack_path
 var icon_path: String : get = get_icon_path
@@ -49,6 +51,10 @@ func get_godot_version() -> String:
 	var major = version_info["major"]
 	var minor = version_info["minor"]
 	return str(major) + "." + str(minor)
+
+
+func get_discoverable() -> bool:
+	return discoverable
 
 
 func get_supported_versions() -> Array:

@@ -44,10 +44,6 @@ func check_status() -> void:
 
 
 func is_valid(settings: TGExportSettings) -> bool:
-	if settings.export_folder.is_empty():
-		printerr("Export folder is not chosen")
-		return false
-	
 	return true
 
 
