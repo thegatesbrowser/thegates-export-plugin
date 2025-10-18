@@ -4,7 +4,6 @@
 
 [node name="FileDialog" type="Button"]
 mouse_default_cursor_shape = 2
-text = "Pick"
 script = ExtResource("1_nv1wy")
 minsize = Vector2i(1000, 600)
 

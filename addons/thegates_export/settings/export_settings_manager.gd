@@ -9,7 +9,7 @@ extends Node
 @export var image: LineEdit
 @export var icon_fd: TGFileDialog
 @export var image_fd: TGFileDialog
-@export var discoverable: CheckButton
+@export var discoverable: CheckBox
 
 
 func _ready() -> void:
