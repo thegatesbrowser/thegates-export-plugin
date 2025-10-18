@@ -40,7 +40,6 @@ func check_status() -> void:
 	
 	pid = -1
 	timer.stop()
-	print("Done!")
 
 
 func is_valid(settings: TGExportSettings) -> bool:

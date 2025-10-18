@@ -1,9 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=17 format=3 uid="uid://c0hadlluk8ea2"]
 
+[ext_resource type="Script" uid="uid://cyihqrjmk4d8e" path="res://addons/thegates_export/dock/dock.gd" id="1_1iqyx"]
 [ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
 [ext_resource type="PackedScene" uid="uid://csthn8tsi1xak" path="res://addons/thegates_export/dock/file_dialog.tscn" id="1_qc56w"]
 [ext_resource type="FontFile" uid="uid://dlsxr6x8ly8o1" path="res://addons/thegates_export/fonts/Inter-Bold.otf" id="2_exlpp"]
-[ext_resource type="Script" uid="uid://pg3o8niqii44" path="res://addons/thegates_export/dock/export_button.gd" id="2_punvs"]
 [ext_resource type="Script" uid="uid://cvu4ub5hatoth" path="res://addons/thegates_export/settings/export_settings_manager.gd" id="3_1g6iw"]
 [ext_resource type="FontFile" uid="uid://bhhqmrno12ef5" path="res://addons/thegates_export/fonts/Inter-Italic.otf" id="3_w6f2b"]
 [ext_resource type="FontFile" uid="uid://vedg7uktv7in" path="res://addons/thegates_export/fonts/Inter-BoldItalic.otf" id="4_brjrt"]
@@ -11,14 +11,26 @@
 [ext_resource type="Script" uid="uid://bjdl8cdlfuumx" path="res://addons/thegates_export/dock/link_opener.gd" id="4_s4553"]
 [ext_resource type="FontFile" uid="uid://c34vdr4dfgjti" path="res://addons/thegates_export/fonts/Monospace.ttf" id="5_ytjav"]
 [ext_resource type="Script" uid="uid://dkep2i23vgwe" path="res://addons/thegates_export/dock/description_preview.gd" id="6_e8n44"]
-
-[sub_resource type="Theme" id="Theme_qcuvx"]
-default_font = ExtResource("1_pslyv")
+[ext_resource type="Script" uid="uid://dn1wuil7dbqaq" path="res://addons/thegates_export/dock/published_url.gd" id="10_1iqyx"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8n44"]
 
-[sub_resource type="DPITexture" id="DPITexture_e8n44"]
-_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-4a1 1 0 0 1-1-1V3a1 1 0 0 0-1-1z\"/></svg>
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8n44"]
+bg_color = Color(0.3254902, 0.14901961, 0.8, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1iqyx"]
+bg_color = Color(0.42352942, 0.23529412, 0.93333334, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="DPITexture" id="DPITexture_1iqyx"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M2 1a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1V3h9V2a1 1 0 0 0-1-1zm3 3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm1 2h7v7H6z\"/></svg>
 "
 saturation = 1.8
 color_map = {
@@ -27,14 +39,17 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(1, 0.87, 0.4, 1)
 }
 
-[node name="Export" type="Control"]
+[node name="TGExport" type="Control" node_paths=PackedStringArray("export_button", "published_url")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_qcuvx")
+script = ExtResource("1_1iqyx")
+settings = ExtResource("4_c5yno")
+export_button = NodePath("VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/ExportButton")
+published_url = NodePath("VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Url")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -47,8 +62,7 @@ grow_vertical = 2
 [node name="TheGates" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Export to TheGates"
-horizontal_alignment = 1
+text = "TheGates Exporter"
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
@@ -111,8 +125,10 @@ size_flags_stretch_ratio = 1.3
 [node name="FoldableContainer" type="FoldableContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Description"]
 layout_mode = 2
 focus_mode = 0
+theme_override_colors/font_color = Color(0.627451, 0.627451, 0.627451, 1)
 theme_override_colors/hover_font_color = Color(0.627451, 0.627451, 0.627451, 1)
 theme_override_colors/collapsed_font_color = Color(0.6255971, 0.6255971, 0.6255971, 1)
+theme_override_colors/font_outline_color = Color(0.627451, 0.627451, 0.627451, 1)
 theme_override_styles/title_panel = SubResource("StyleBoxEmpty_e8n44")
 theme_override_styles/title_hover_panel = SubResource("StyleBoxEmpty_e8n44")
 theme_override_styles/title_collapsed_panel = SubResource("StyleBoxEmpty_e8n44")
@@ -136,10 +152,6 @@ bbcode_enabled = true
 script = ExtResource("6_e8n44")
 description = NodePath("../../HBoxContainer/DescLineEdit")
 
-[node name="Space3" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
 [node name="Icon" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -162,7 +174,6 @@ size_flags_horizontal = 3
 
 [node name="FileDialog" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Icon/HBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
-theme_override_icons/icon = SubResource("DPITexture_e8n44")
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
 [node name="Image" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -187,7 +198,6 @@ size_flags_horizontal = 3
 
 [node name="FileDialog" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Image/HBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
-theme_override_icons/icon = SubResource("DPITexture_e8n44")
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
 [node name="Discoverable" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -221,16 +231,48 @@ size_flags_stretch_ratio = 1.3
 text = "On"
 
 [node name="Space" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 10)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="ExportButton" type="Button" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Publish"
-script = ExtResource("2_punvs")
-settings = ExtResource("4_c5yno")
+theme_override_styles/normal = SubResource("StyleBoxFlat_e8n44")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e8n44")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1iqyx")
+text = "Publish to TheGates"
+
+[node name="Space3" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="Url" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("url_line_edit", "copy_button")]
+visible = false
+layout_mode = 2
+script = ExtResource("10_1iqyx")
+url_line_edit = NodePath("HBoxContainer/LineEdit")
+copy_button = NodePath("HBoxContainer/Button")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Url"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.3
+bbcode_enabled = true
+text = "Open this url in [url=https://thegates.io/]TheGates app[/url]"
+fit_content = true
+script = ExtResource("4_s4553")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Url"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Url/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="Button" type="Button" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Url/HBoxContainer"]
+layout_mode = 2
+theme_override_icons/icon = SubResource("DPITexture_1iqyx")
 
 [node name="Space2" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
