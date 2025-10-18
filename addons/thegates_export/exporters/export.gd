@@ -56,4 +56,5 @@ func export_project(settings: TGExportSettings) -> String:
 
 
 func check_project(settings: TGExportSettings) -> String:
+	prepare_folder.prepare(settings)
 	return await project_publisher.check_project(settings)
