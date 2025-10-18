@@ -3,99 +3,183 @@ class_name TGProjectPublisher
 extends Node
 
 const DEFAULT_API_BASE_URL = "https://app.thegates.io"
+const CREATE_PROJECT_API_PATH = "/api/create_project"
 const PUBLISH_API_PATH = "/api/publish_project"
 const GET_PUBLISHED_API_PATH = "/api/get_published_project"
 
-const FORM_FIELD_USER_ID = "user_id"
-const FORM_FIELD_PROJECT_NAME = "project_name"
+const FORM_FIELD_TOKEN = "token"
 const FORM_FIELD_FILES = "files"
 
-const DEFAULT_USER_ID = "test_user"
+const TOKEN_HEADER_HINT = "# TheGates project token for publishing. Keep this file private."
+
+
+func load_token(settings: TGExportSettings) -> String:
+	var token := get_token(settings)
+	if token.is_empty():
+		token = await ensure_project_token(settings)
+	return token
+
+
+func ensure_project_token(settings: TGExportSettings) -> String:
+	var request := HTTPRequest.new()
+	add_child(request)
+	var headers := PackedStringArray([
+		"Accept: application/json",
+		"Content-Type: application/json"
+	])
+	var payload := {
+		"project_name": ProjectSettings.get_setting("application/config/name")
+	}
+	var json_payload := JSON.stringify(payload)
+	var error := request.request(get_create_endpoint(), headers, HTTPClient.METHOD_POST, json_payload)
+	if error != OK:
+		printerr("Create project request failed to start: %s" % error)
+		request.queue_free()
+		return ""
+
+	var completed = await request.request_completed
+	request.queue_free()
+	var result: int = completed[0]
+	var response_code: int = completed[1]
+	var _headers: PackedStringArray = completed[2]
+	var response_body: PackedByteArray = completed[3]
+
+	if result != HTTPRequest.RESULT_SUCCESS:
+		printerr("Create project request failed: result=%s" % result)
+		return ""
+
+	if response_code != 201 and response_code != 200:
+		printerr("Create project request returned HTTP %s" % response_code)
+		return ""
+
+	var text := response_body.get_string_from_utf8()
+	if text.is_empty():
+		return ""
+
+	var json := JSON.new()
+	var parse_error := json.parse(text)
+	if parse_error != OK:
+		printerr("Failed to parse create project response: %s" % json.get_error_message())
+		printerr(text)
+		return ""
+	var data = json.data
+	if typeof(data) != TYPE_DICTIONARY:
+		return ""
+	var response: Dictionary = data
+	var token := str(response.get("token", ""))
+	if token.is_empty():
+		printerr("Create project response missing token")
+		return ""
+	save_token(settings, token)
+	return token
 
 
 func get_publish_endpoint() -> String:
-	return "%s%s" % [get_api_base_url(), PUBLISH_API_PATH]
+	return DEFAULT_API_BASE_URL + PUBLISH_API_PATH
+
+
+func get_create_endpoint() -> String:
+	return DEFAULT_API_BASE_URL + CREATE_PROJECT_API_PATH
 
 
 func get_check_endpoint() -> String:
-	return "%s%s" % [get_api_base_url(), GET_PUBLISHED_API_PATH]
+	return DEFAULT_API_BASE_URL + GET_PUBLISHED_API_PATH
 
 
-func get_api_base_url() -> String:
-	if OS.has_feature("web"):
-		var base_url = JavaScriptBridge.eval("window.location.protocol + '//' + window.location.host")
-		return str(base_url)
-	
-	return DEFAULT_API_BASE_URL
+
+func get_token(settings: TGExportSettings) -> String:
+	var path := settings.get_token_path()
+	if not FileAccess.file_exists(path):
+		return ""
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		printerr("Failed to open token file: %s" % path)
+		return ""
+	var contents := file.get_as_text()
+	file.close()
+	var lines := contents.split("\n", false)
+	if lines.is_empty():
+		return ""
+	if lines[0].begins_with("#"):
+		lines.remove_at(0)
+	var token := "\n".join(lines).strip_edges()
+	return token
 
 
-func get_user_id() -> String:
-	if OS.has_feature("web"):
-		var user_id := JavaScriptBridge.eval("window.getTheGatesUserId()")
-		return str(user_id)
-	
-	return DEFAULT_USER_ID
+func save_token(settings: TGExportSettings, token: String) -> void:
+	var path := settings.get_token_path()
+	var dir_path := path.get_base_dir()
+	DirAccess.make_dir_recursive_absolute(dir_path)
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		printerr("Failed to write token file: %s" % path)
+		return
+	file.store_string(TOKEN_HEADER_HINT + "\n" + token)
+	file.close()
 
 
 func publish(settings: TGExportSettings) -> String:
 	if not is_valid(settings):
 		return ""
-	
+
 	var file_payloads: Array = []
-	
+
 	var gate_payload := build_file_payload(settings.get_gate_path())
-	if not gate_payload.is_empty(): file_payloads.append(gate_payload)
-	
+	if not gate_payload.is_empty():
+		file_payloads.append(gate_payload)
+
 	var pack_payload := build_file_payload(settings.get_pack_path())
-	if not pack_payload.is_empty(): file_payloads.append(pack_payload)
-	
+	if not pack_payload.is_empty():
+		file_payloads.append(pack_payload)
+
 	var icon_payload := build_file_payload(settings.get_icon_path())
-	if not icon_payload.is_empty(): file_payloads.append(icon_payload)
-	
+	if not icon_payload.is_empty():
+		file_payloads.append(icon_payload)
+
 	var image_payload := build_file_payload(settings.get_image_path())
-	if not image_payload.is_empty(): file_payloads.append(image_payload)
-	
+	if not image_payload.is_empty():
+		file_payloads.append(image_payload)
+
 	if file_payloads.is_empty():
 		printerr("Publishing aborted: no export artifacts found")
 		return ""
-	
+
+	var token := await load_token(settings)
+	if token.is_empty():
+		return ""
+
 	var form_data := {
-		FORM_FIELD_USER_ID: get_user_id(),
-		FORM_FIELD_PROJECT_NAME: ProjectSettings.get_setting("application/config/name"),
+		FORM_FIELD_TOKEN: token,
 	}
-	
+
 	var boundary := "----TheGatesBoundary%d" % Time.get_ticks_usec()
 	var body := build_multipart_body(boundary, form_data, file_payloads)
 	var headers := PackedStringArray([
 		"Content-Type: multipart/form-data; boundary=%s" % boundary,
 		"Accept: application/json"
 	])
-	
-	# var token := settings.get_publish_token()
-	# if not token.is_empty():
-	# 	headers.append("Authorization: Bearer %s" % token)
-	
+
 	var request := HTTPRequest.new()
 	add_child(request)
-	
+
 	var error := request.request_raw(get_publish_endpoint(), headers, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		printerr("Publish request failed to start: %s" % error)
 		request.queue_free()
 		return ""
-	
+
 	var completed = await request.request_completed
 	request.queue_free()
-	
+
 	var result: int = completed[0]
 	var response_code: int = completed[1]
 	var _headers: PackedStringArray = completed[2]
 	var response_body: PackedByteArray = completed[3]
-	
+
 	if result != HTTPRequest.RESULT_SUCCESS:
 		printerr("Publish request failed: result=%s" % result)
 		return ""
-	
+
 	return process_publish_response(result, response_code, response_body)
 
 
@@ -208,29 +292,32 @@ func process_publish_response(result: int, response_code: int, body: PackedByteA
 		var data = json.data
 		if typeof(data) == TYPE_DICTIONARY:
 			var response: Dictionary = data
-			if response.has("url"):
-				var url_value := str(response["url"]) if typeof(response["url"]) == TYPE_STRING else ""
-				if not url_value.is_empty():
-					return url_value
+			var url_value := ""
+			if response.has("url") and typeof(response["url"]) == TYPE_STRING:
+				url_value = str(response["url"])
+			if not url_value.is_empty():
+				return url_value
 			# Fallthrough: print body for diagnostics if structure unexpected
 			print(text)
 	else:
 		printerr("Failed to parse publish response: %s" % json.get_error_message())
 		printerr(text)
 	
-	if response_code != 201:
+	if response_code != 201 and response_code != 200:
 		printerr("Publishing failed with HTTP status %s" % response_code)
 	
 	return ""
 
 
-func check_project() -> String:
-	var project_name := str(ProjectSettings.get_setting("application/config/name"))
-	var query_parts := PackedStringArray([
-		"%s=%s" % [FORM_FIELD_USER_ID, get_user_id().uri_encode()],
-		"%s=%s" % [FORM_FIELD_PROJECT_NAME, project_name.uri_encode()]
-	])
-	var request_url := "%s?%s" % [get_check_endpoint(), "&".join(query_parts)]
+
+func check_project(settings: TGExportSettings) -> String:
+	var token := get_token(settings)
+	if token.is_empty():
+		token = await load_token(settings)
+	if token.is_empty():
+		return ""
+
+	var request_url := "%s?%s=%s" % [get_check_endpoint(), FORM_FIELD_TOKEN, token.uri_encode()]
 	var headers := PackedStringArray(["Accept: application/json"])
 	
 	var request := HTTPRequest.new()
@@ -277,14 +364,8 @@ func check_project() -> String:
 		return ""
 	
 	var response: Dictionary = data
-	if response.get("status", "") != "ok":
-		return ""
-	
-	if response.get("code", "") != "published":
-		return ""
-	
 	var url := response.get("url", "")
 	if typeof(url) == TYPE_STRING:
-		return url
+		return str(url)
 	
 	return ""

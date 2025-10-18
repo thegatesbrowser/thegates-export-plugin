@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=18 format=3 uid="uid://c0hadlluk8ea2"]
 
 [ext_resource type="Script" uid="uid://cyihqrjmk4d8e" path="res://addons/thegates_export/dock/dock.gd" id="1_1iqyx"]
 [ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
@@ -15,6 +15,16 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8n44"]
 
+[sub_resource type="DPITexture" id="DPITexture_1iqyx"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-4a1 1 0 0 1-1-1V3a1 1 0 0 0-1-1z\"/></svg>
+"
+saturation = 1.8
+color_map = {
+Color(1, 0.37254903, 0.37254903, 1): Color(1, 0.47, 0.42, 1),
+Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
+Color(1, 0.8666667, 0.39607844, 1): Color(1, 0.87, 0.4, 1)
+}
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8n44"]
 bg_color = Color(0.3254902, 0.14901961, 0.8, 1)
 corner_radius_top_left = 7
@@ -29,7 +39,7 @@ corner_radius_top_right = 7
 corner_radius_bottom_right = 7
 corner_radius_bottom_left = 7
 
-[sub_resource type="DPITexture" id="DPITexture_1iqyx"]
+[sub_resource type="DPITexture" id="DPITexture_48a6l"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M2 1a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1V3h9V2a1 1 0 0 0-1-1zm3 3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm1 2h7v7H6z\"/></svg>
 "
 saturation = 1.8
@@ -174,6 +184,7 @@ size_flags_horizontal = 3
 
 [node name="FileDialog" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Icon/HBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
+theme_override_icons/icon = SubResource("DPITexture_1iqyx")
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
 [node name="Image" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -198,6 +209,7 @@ size_flags_horizontal = 3
 
 [node name="FileDialog" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Image/HBoxContainer" instance=ExtResource("1_qc56w")]
 layout_mode = 2
+theme_override_icons/icon = SubResource("DPITexture_1iqyx")
 filters = PackedStringArray("*.png, *.jpg, *.jpeg, *.webp, *.bmp ; Image")
 
 [node name="Discoverable" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -237,6 +249,7 @@ layout_mode = 2
 [node name="ExportButton" type="Button" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_e8n44")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e8n44")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1iqyx")
@@ -272,7 +285,7 @@ editable = false
 
 [node name="Button" type="Button" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Url/HBoxContainer"]
 layout_mode = 2
-theme_override_icons/icon = SubResource("DPITexture_1iqyx")
+theme_override_icons/icon = SubResource("DPITexture_48a6l")
 
 [node name="Space2" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)

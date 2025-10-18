@@ -49,5 +49,5 @@ func export_project(settings: TGExportSettings) -> String:
 	return published_url
 
 
-func check_project() -> String:
-	return await project_publisher.check_project()
+func check_project(settings: TGExportSettings) -> String:
+	return await project_publisher.check_project(settings)

@@ -22,7 +22,7 @@ func export() -> void:
 
 
 func check_project() -> void:
-	var url = await tgExport.check_project()
+	var url = await tgExport.check_project(settings)
 	update_url(url)
 
 

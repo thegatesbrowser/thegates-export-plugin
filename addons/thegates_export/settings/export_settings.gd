@@ -12,6 +12,7 @@ const PACK_NAME = "project.zip"
 const ICON_NAME = "icon.%s"
 const IMAGE_NAME = "image.%s"
 const GATE_NAME = "project.gate"
+const TOKEN_NAME = "publish.key"
 
 var export_folder: String = ProjectSettings.globalize_path("res://addons/thegates_export/export")
 
@@ -19,6 +20,7 @@ var pack_path: String : get = get_pack_path
 var icon_path: String : get = get_icon_path
 var image_path: String : get = get_image_path
 var gate_path: String : get = get_gate_path
+var token_path: String : get = get_token_path
 
 var supported_versions: = ["4.3", "4.5"]
 var supported_rendering_methods: = ["forward_plus"]
@@ -44,6 +46,10 @@ func get_image_path() -> String:
 
 func get_gate_path() -> String:
 	return export_folder + "/" + GATE_NAME
+
+
+func get_token_path() -> String:
+	return export_folder + "/" + TOKEN_NAME
 
 
 func get_godot_version() -> String:
