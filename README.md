@@ -1,15 +1,15 @@
 # TheGates Export Plugin
 
-This plugin allows you easily export your project to TheGates browser
+One-click publishing for your Godot projects.
+Export directly from the editor to TheGates — with free hosting, instant updates, and native performance on Linux, Windows, and macOS.
 
-Fill the required fields and click "Export" \
-It will export and create all the necessary files in your chosen folder
-
-You can host them locally or on the server \
-If you need one just email us on thegates.browser@gmail.com
-
-TheGates Docs: https://docs.thegates.io/
+How to use:
+- Click "Publish to TheGates"
+- Open your project in TheGates app using the provided URL
+- Share the URL with friends
+<br>
+📘 TheGates Docs: https://docs.thegates.io/
 
 ## Screenshots
 
-<img src="img\screenshot_1.png" width="450">
+<img src="img\screenshot_1.png" width="420">
