@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c0hadlluk8ea2"]
+[gd_scene load_steps=26 format=3 uid="uid://c0hadlluk8ea2"]
 
 [ext_resource type="Script" uid="uid://cyihqrjmk4d8e" path="res://addons/thegates_export/dock/dock.gd" id="1_1iqyx"]
 [ext_resource type="FontFile" uid="uid://bieguuna7y5ev" path="res://addons/thegates_export/fonts/Inter-Regular.otf" id="1_pslyv"]
@@ -26,6 +26,14 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(1, 0.87, 0.4, 1)
 }
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y7hab"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdhlt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48a6l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jvh6t"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8n44"]
 bg_color = Color(0.3254902, 0.14901961, 0.8, 1)
 corner_radius_top_left = 7
@@ -35,6 +43,13 @@ corner_radius_bottom_left = 7
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1iqyx"]
 bg_color = Color(0.42352942, 0.23529412, 0.93333334, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdhlt"]
+bg_color = Color(0.3254902, 0.14901961, 0.8, 1)
 corner_radius_top_left = 7
 corner_radius_top_right = 7
 corner_radius_bottom_right = 7
@@ -64,7 +79,7 @@ Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
 Color(1, 0.8666667, 0.39607844, 1): Color(1, 0.87, 0.4, 1)
 }
 
-[node name="Export" type="Control" node_paths=PackedStringArray("export_button", "delete_button", "delete_button_container", "export_result")]
+[node name="Export" type="Control" node_paths=PackedStringArray("tos_container", "export_button", "delete_button", "delete_button_container", "export_result")]
 custom_minimum_size = Vector2(190, 0)
 layout_mode = 3
 anchors_preset = 15
@@ -74,6 +89,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1iqyx")
 settings = ExtResource("4_c5yno")
+tos_container = NodePath("VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/TOS")
 export_button = NodePath("VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/ExportButton")
 delete_button = NodePath("VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Delete/DeleteButton")
 delete_button_container = NodePath("VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Delete")
@@ -282,6 +298,38 @@ text = "Export locally"
 script = ExtResource("10_48a6l")
 settings = ExtResource("4_c5yno")
 
+[node name="TOS" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/TOS"]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckBox" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/TOS/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+size_flags_stretch_ratio = 1.3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/TOS/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 1.3
+theme_override_colors/default_color = Color(1, 1, 1, 0.4)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y7hab")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_bdhlt")
+theme_override_styles/background = SubResource("StyleBoxEmpty_48a6l")
+theme_override_styles/fill = SubResource("StyleBoxEmpty_jvh6t")
+bbcode_enabled = true
+text = "I understand that I keep full rights to my project and agree to [url=https://thegates.io/export-plugin/terms/]Terms of Service[/url]."
+fit_content = true
+script = ExtResource("4_s4553")
+
+[node name="Space" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/TOS"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
 [node name="ExportButton" type="Button" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -289,9 +337,12 @@ mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_e8n44")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e8n44")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1iqyx")
-text = "Update project"
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bdhlt")
+disabled = true
+text = "Publish to TheGates"
 
 [node name="Delete" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Space3" type="Control" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Delete"]
@@ -314,6 +365,7 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="ExportResult" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("rich_text_label", "line_edit", "button")]
+visible = false
 layout_mode = 2
 script = ExtResource("10_1iqyx")
 settings = ExtResource("4_c5yno")
@@ -364,7 +416,7 @@ text = "[b]Links:[/b]
 fit_content = true
 script = ExtResource("4_s4553")
 
-[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "icon_fd", "image_fd", "discoverable", "advanced_settings", "export_locally")]
+[node name="ExportSettingsManager" type="Node" parent="." node_paths=PackedStringArray("title", "description", "icon", "image", "icon_fd", "image_fd", "discoverable", "advanced_settings", "export_locally", "tos_accepted")]
 script = ExtResource("3_1g6iw")
 settings = ExtResource("4_c5yno")
 title = NodePath("../VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Title/LineEdit")
@@ -376,6 +428,7 @@ image_fd = NodePath("../VBoxContainer/Panel/MarginContainer/ScrollContainer/VBox
 discoverable = NodePath("../VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Discoverable/RichTextLabel/CheckButton")
 advanced_settings = NodePath("../VBoxContainer/HBoxContainer/AdvancedSettings")
 export_locally = NodePath("../VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/ExportLocally")
+tos_accepted = NodePath("../VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/TOS/HBoxContainer/CheckButton")
 
 [connection signal="file_selected" from="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Icon/HBoxContainer/FileDialog" to="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Icon/HBoxContainer/LineEdit" method="set_text"]
 [connection signal="file_selected" from="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Image/HBoxContainer/FileDialog" to="VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/Image/HBoxContainer/LineEdit" method="set_text"]

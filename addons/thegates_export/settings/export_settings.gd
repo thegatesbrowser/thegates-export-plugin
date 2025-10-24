@@ -4,6 +4,7 @@ extends Resource
 
 signal advanced_settings_changed(enabled: bool)
 signal export_locally_changed(enabled: bool)
+signal tos_accepted_changed(accepted: bool)
 
 @export var title: String
 @export var description: String
@@ -13,6 +14,7 @@ signal export_locally_changed(enabled: bool)
 
 @export var advanced_settings: bool: set = set_advanced_settings
 @export var export_locally: bool: set = set_export_locally
+@export var tos_accepted: bool: set = set_tos_accepted
 
 const PACK_NAME = "project.zip"
 const ICON_NAME = "icon.%s"
@@ -79,3 +81,8 @@ func set_advanced_settings(value: bool) -> void:
 func set_export_locally(value: bool) -> void:
 	export_locally = value
 	export_locally_changed.emit(value)
+
+
+func set_tos_accepted(value: bool) -> void:
+	tos_accepted = value
+	tos_accepted_changed.emit(value)

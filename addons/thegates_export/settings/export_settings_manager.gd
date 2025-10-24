@@ -13,6 +13,7 @@ extends Node
 
 @export var advanced_settings: CheckButton
 @export var export_locally: CheckButton
+@export var tos_accepted: CheckBox
 
 
 func _ready() -> void:
@@ -27,6 +28,7 @@ func _ready() -> void:
 	discoverable.toggled.connect(func(toggled_on): settings.discoverable = toggled_on)
 	advanced_settings.toggled.connect(func(toggled_on): settings.advanced_settings = toggled_on)
 	export_locally.toggled.connect(func(toggled_on): settings.export_locally = toggled_on)
+	tos_accepted.toggled.connect(func(toggled_on): settings.tos_accepted = toggled_on)
 
 
 func set_initial() -> void:
@@ -37,6 +39,7 @@ func set_initial() -> void:
 	discoverable.button_pressed = settings.discoverable
 	advanced_settings.button_pressed = settings.advanced_settings
 	export_locally.button_pressed = settings.export_locally
+	tos_accepted.button_pressed = settings.tos_accepted
 	
 	title.text_changed.emit(title.text)
 	description.text_changed.emit(description.text)
@@ -45,3 +48,4 @@ func set_initial() -> void:
 	discoverable.toggled.emit(settings.discoverable)
 	advanced_settings.toggled.emit(settings.advanced_settings)
 	export_locally.toggled.emit(settings.export_locally)
+	tos_accepted.toggled.emit(settings.tos_accepted)
