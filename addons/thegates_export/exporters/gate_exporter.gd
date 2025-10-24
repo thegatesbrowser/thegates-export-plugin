@@ -3,6 +3,7 @@ class_name TGGateExporter
 extends Node
 
 const SECTION = "gate"
+
 # Keys
 const TITLE = "title"
 const DESCRIPTION = "description"
@@ -20,7 +21,6 @@ func export(settings: TGExportSettings) -> void:
 	var image = settings.get_image_path().get_file()
 	var pack = settings.get_pack_path().get_file()
 	var godot_version = settings.get_godot_version()
-	var discoverable = settings.get_discoverable()
 	
 	var cfg = ConfigFile.new()
 	cfg.set_value(SECTION, TITLE, settings.title)
@@ -29,7 +29,7 @@ func export(settings: TGExportSettings) -> void:
 	cfg.set_value(SECTION, IMAGE, image)
 	cfg.set_value(SECTION, PACK, pack)
 	cfg.set_value(SECTION, GODOT_VERSION, godot_version)
-	cfg.set_value(SECTION, DISCOVERABLE, discoverable)
+	cfg.set_value(SECTION, DISCOVERABLE, settings.discoverable)
 
 	var path = settings.get_gate_path()
 	cfg.save(path)

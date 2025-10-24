@@ -11,6 +11,9 @@ extends Node
 @export var image_fd: TGFileDialog
 @export var discoverable: CheckBox
 
+@export var advanced_settings: CheckButton
+@export var export_locally: CheckButton
+
 
 func _ready() -> void:
 	set_initial()
@@ -22,6 +25,8 @@ func _ready() -> void:
 	image.text_changed.connect(func(text): settings.image = text)
 	image_fd.file_selected.connect(func(path): settings.image = path)
 	discoverable.toggled.connect(func(toggled_on): settings.discoverable = toggled_on)
+	advanced_settings.toggled.connect(func(toggled_on): settings.advanced_settings = toggled_on)
+	export_locally.toggled.connect(func(toggled_on): settings.export_locally = toggled_on)
 
 
 func set_initial() -> void:
@@ -30,9 +35,13 @@ func set_initial() -> void:
 	icon.text = settings.icon
 	image.text = settings.image
 	discoverable.button_pressed = settings.discoverable
+	advanced_settings.button_pressed = settings.advanced_settings
+	export_locally.button_pressed = settings.export_locally
 	
 	title.text_changed.emit(title.text)
 	description.text_changed.emit(description.text)
 	icon.text_changed.emit(icon.text)
 	image.text_changed.emit(image.text)
 	discoverable.toggled.emit(settings.discoverable)
+	advanced_settings.toggled.emit(settings.advanced_settings)
+	export_locally.toggled.emit(settings.export_locally)

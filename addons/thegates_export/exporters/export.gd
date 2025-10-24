@@ -26,18 +26,18 @@ func _ready() -> void:
 	add_child(project_publisher)
 
 
-func export_project(settings: TGExportSettings) -> String:
+func export_project(settings: TGExportSettings) -> void:
 	if pack_exporter.is_in_progress():
 		print("Export is still in progress, please wait")
-		return ""
+		return
 	
-	if settings.get_godot_version() not in settings.get_supported_versions():
+	if settings.get_godot_version() not in settings.supported_versions:
 		printerr("Unsupported Godot version: %s. Please use Godot 4.3 or 4.5 (recommended)." % [settings.get_godot_version()])
-		return ""
+		return
 	
-	if settings.get_rendering_method() not in settings.get_supported_rendering_methods():
+	if settings.get_rendering_method() not in settings.supported_rendering_methods:
 		printerr("Unsupported rendering method: %s. Please use Forward+." % [settings.get_rendering_method()])
-		return ""
+		return
 	
 	print("\n=================== Starting export ===================")
 	
@@ -48,13 +48,18 @@ func export_project(settings: TGExportSettings) -> String:
 	image_exporter.export(settings)
 	gate_exporter.export(settings)
 	
+	if settings.export_locally:
+		print("Finished!")
+		return
+	
 	print("Publishing to TheGates...")
 	var published_url = await project_publisher.publish(settings)
+	settings.published_url = published_url
 	
 	print("Finished!")
-	return published_url
 
 
-func check_project(settings: TGExportSettings) -> String:
+func check_project(settings: TGExportSettings) -> void:
 	prepare_folder.prepare(settings)
-	return await project_publisher.check_project(settings)
+	var published_url = await project_publisher.check_project(settings)
+	settings.published_url = published_url
