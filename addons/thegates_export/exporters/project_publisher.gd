@@ -6,6 +6,7 @@ const DEFAULT_API_BASE_URL = "https://app.thegates.io"
 const CREATE_PROJECT_API_PATH = "/api/create_project"
 const PUBLISH_API_PATH = "/api/publish_project"
 const GET_PUBLISHED_API_PATH = "/api/get_published_project"
+const DELETE_PROJECT_API_PATH = "/api/delete_project"
 
 const FORM_FIELD_TOKEN = "token"
 const FORM_FIELD_FILES = "files"
@@ -86,6 +87,10 @@ func get_check_endpoint() -> String:
 	return DEFAULT_API_BASE_URL + GET_PUBLISHED_API_PATH
 
 
+func get_delete_endpoint() -> String:
+	return DEFAULT_API_BASE_URL + DELETE_PROJECT_API_PATH
+
+
 func get_token(settings: TGExportSettings) -> String:
 	var path := settings.get_token_path()
 	if not FileAccess.file_exists(path):
@@ -121,6 +126,14 @@ func publish(settings: TGExportSettings) -> String:
 	if not is_valid(settings):
 		return ""
 	
+	var token := await load_token(settings)
+	if token.is_empty():
+		return ""
+	
+	var form_data := {
+		FORM_FIELD_TOKEN: token,
+	}
+	
 	var file_payloads: Array = []
 	
 	var gate_payload := build_file_payload(settings.get_gate_path())
@@ -142,14 +155,6 @@ func publish(settings: TGExportSettings) -> String:
 	if file_payloads.is_empty():
 		printerr("Publishing aborted: no export artifacts found")
 		return ""
-	
-	var token := await load_token(settings)
-	if token.is_empty():
-		return ""
-	
-	var form_data := {
-		FORM_FIELD_TOKEN: token,
-	}
 	
 	var boundary := "----TheGatesBoundary%d" % Time.get_ticks_usec()
 	var body := build_multipart_body(boundary, form_data, file_payloads)
@@ -309,9 +314,7 @@ func process_publish_response(result: int, response_code: int, body: PackedByteA
 
 
 func check_project(settings: TGExportSettings) -> String:
-	var token := get_token(settings)
-	if token.is_empty():
-		token = await load_token(settings)
+	var token := await load_token(settings)
 	if token.is_empty():
 		return ""
 
@@ -367,3 +370,66 @@ func check_project(settings: TGExportSettings) -> String:
 		return str(url)
 	
 	return ""
+
+
+func delete_project(settings: TGExportSettings) -> bool:
+	var token := await load_token(settings)
+	if token.is_empty():
+		return false
+	
+	var headers := PackedStringArray([
+		"Content-Type: application/x-www-form-urlencoded",
+		"Accept: application/json"
+	])
+	var body := "token=%s" % token.uri_encode()
+	
+	var request := HTTPRequest.new()
+	add_child(request)
+	
+	var error := request.request(get_delete_endpoint(), headers, HTTPClient.METHOD_POST, body)
+	if error != OK:
+		printerr("Delete project request failed to start: %s" % error)
+		request.queue_free()
+		return false
+	
+	var completed = await request.request_completed
+	request.queue_free()
+	
+	var result: int = completed[0]
+	var response_code: int = completed[1]
+	var _headers: PackedStringArray = completed[2]
+	var response_body: PackedByteArray = completed[3]
+	
+	if result != HTTPRequest.RESULT_SUCCESS:
+		printerr("Delete project request failed: result=%s" % result)
+		return false
+	
+	var text := response_body.get_string_from_utf8()
+	if text.is_empty():
+		var success := response_code == 200
+		if success:
+			print("Successfully deleted the project")
+		return success
+	
+	var json := JSON.new()
+	var parse_error := json.parse(text)
+	if parse_error != OK or typeof(json.data) != TYPE_DICTIONARY:
+		printerr("Failed to parse delete response: %s" % json.get_error_message())
+		printerr(text)
+		return false
+	
+	var response: Dictionary = json.data
+	var status := str(response.get("status", ""))
+	var code := str(response.get("code", ""))
+	if response_code == 200 and status == "ok" and code == "deleted":
+		print("Successfully deleted the project")
+		return true
+	
+	var message := str(response.get("message", ""))
+	var detail := str(response.get("detail", ""))
+	var error_text := "Delete project failed (%s)" % code if message.is_empty() else "Delete project failed (%s): %s" % [code, message]
+	printerr(error_text)
+	if not detail.is_empty():
+		printerr(detail)
+	
+	return false

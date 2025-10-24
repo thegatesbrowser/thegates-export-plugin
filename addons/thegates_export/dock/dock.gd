@@ -27,13 +27,13 @@ func export() -> void:
 	update_info()
 
 
-func delete() -> void:
-	await tgExport.delete_project(settings)
+func check_project() -> void:
+	await tgExport.check_project(settings)
 	update_info()
 
 
-func check_project() -> void:
-	await tgExport.check_project(settings)
+func delete() -> void:
+	await tgExport.delete_project(settings)
 	update_info()
 
 

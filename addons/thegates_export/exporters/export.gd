@@ -63,3 +63,8 @@ func check_project(settings: TGExportSettings) -> void:
 	prepare_folder.prepare(settings)
 	var published_url = await project_publisher.check_project(settings)
 	settings.published_url = published_url
+
+
+func delete_project(settings: TGExportSettings) -> void:
+	await project_publisher.delete_project(settings)
+	settings.published_url = ""
