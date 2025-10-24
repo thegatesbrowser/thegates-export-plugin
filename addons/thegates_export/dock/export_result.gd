@@ -20,7 +20,7 @@ func _ready() -> void:
 	button.pressed.connect(on_button_pressed)
 
 	copy_icon = EditorInterface.get_base_control().get_theme_icon(&"ActionCopy", &"EditorIcons")
-	folder_icon = EditorInterface.get_base_control().get_theme_icon(&"ExternalLink", &"EditorIcons")
+	folder_icon = EditorInterface.get_base_control().get_theme_icon(&"Load", &"EditorIcons")
 
 
 func update_result() -> void:
