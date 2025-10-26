@@ -23,6 +23,7 @@ const GATE_NAME = "project.gate"
 const TOKEN_NAME = "publish.key"
 
 var export_folder: String = ProjectSettings.globalize_path("res://addons/thegates_export/export")
+var keys_folder: String = ProjectSettings.globalize_path("res://addons/thegates_export/keys")
 
 var pack_path: String : get = get_pack_path
 var icon_path: String : get = get_icon_path
@@ -59,7 +60,7 @@ func get_gate_path() -> String:
 
 
 func get_token_path() -> String:
-	return export_folder + "/" + TOKEN_NAME
+	return keys_folder + "/" + TOKEN_NAME
 
 
 func get_godot_version() -> String:

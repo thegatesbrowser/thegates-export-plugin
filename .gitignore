@@ -5,5 +5,5 @@
 .godot/
 
 # TheGates
-export/
+# export/
 export_presets.cfg
