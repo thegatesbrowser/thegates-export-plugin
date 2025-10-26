@@ -4,3 +4,4 @@
 
 [resource]
 script = ExtResource("1_4i6s3")
+fresh_install = true

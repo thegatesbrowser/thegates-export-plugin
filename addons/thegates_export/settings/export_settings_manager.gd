@@ -2,6 +2,7 @@
 extends Node
 
 @export var settings: TGExportSettings
+@export var backup: TGExportSettingsBackup
 
 @export var title: LineEdit
 @export var description: LineEdit
@@ -17,6 +18,8 @@ extends Node
 
 
 func _ready() -> void:
+	settings.save_on_changed()
+	backup.load_settings()
 	set_initial()
 	
 	title.text_changed.connect(func(text): settings.title = text)

@@ -120,6 +120,8 @@ func save_token(settings: TGExportSettings, token: String) -> void:
 		return
 	file.store_string(TOKEN_HEADER_HINT + "\n" + token)
 	file.close()
+	
+	TGExportSettingsStorage.save_token(settings)
 
 
 func publish(settings: TGExportSettings) -> String:

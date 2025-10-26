@@ -6,15 +6,17 @@ signal advanced_settings_changed(enabled: bool)
 signal export_locally_changed(enabled: bool)
 signal tos_accepted_changed(accepted: bool)
 
-@export var title: String
-@export var description: String
-@export var icon: String
-@export var image: String
-@export var discoverable: bool
+@export var title: String: set = set_title
+@export var description: String: set = set_description
+@export var icon: String: set = set_icon
+@export var image: String: set = set_image
+@export var discoverable: bool: set = set_discoverable
 
 @export var advanced_settings: bool: set = set_advanced_settings
 @export var export_locally: bool: set = set_export_locally
 @export var tos_accepted: bool: set = set_tos_accepted
+
+@export var fresh_install: bool
 
 const PACK_NAME = "project.zip"
 const ICON_NAME = "icon.%s"
@@ -74,16 +76,53 @@ func get_rendering_method() -> String:
 	return ProjectSettings.get_setting("rendering/renderer/rendering_method")
 
 
+func set_title(value: String) -> void:
+	title = value
+	changed.emit()
+
+
+func set_description(value: String) -> void:
+	description = value
+	changed.emit()
+
+
+func set_icon(value: String) -> void:
+	icon = value
+	changed.emit()
+
+
+func set_image(value: String) -> void:
+	image = value
+	changed.emit()
+
+
+func set_discoverable(value: bool) -> void:
+	discoverable = value
+	changed.emit()
+
+
 func set_advanced_settings(value: bool) -> void:
 	advanced_settings = value
 	advanced_settings_changed.emit(value)
+	changed.emit()
 
 
 func set_export_locally(value: bool) -> void:
 	export_locally = value
 	export_locally_changed.emit(value)
+	changed.emit()
 
 
 func set_tos_accepted(value: bool) -> void:
 	tos_accepted = value
 	tos_accepted_changed.emit(value)
+	changed.emit()
+
+
+func save_on_changed() -> void:
+	if not changed.is_connected(save):
+		changed.connect(save)
+
+
+func save() -> void:
+	ResourceSaver.save(self, resource_path)
