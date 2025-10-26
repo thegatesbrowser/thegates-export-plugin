@@ -48,7 +48,7 @@ func update_info() -> void:
 		delete_button_container.visible = false
 		tos_container.visible = false
 	else:
-		tos_container.visible = settings.published_url.is_empty()
+		tos_container.visible = not settings.tos_accepted
 		export_button.disabled = not settings.tos_accepted
 		export_button.text = "Publish to TheGates" if settings.published_url.is_empty() else "Update project"
 		delete_button_container.visible = not settings.published_url.is_empty()
