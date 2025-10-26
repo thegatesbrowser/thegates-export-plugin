@@ -22,6 +22,7 @@ func load_settings() -> void:
 	if not settings.fresh_install: return
 	
 	print("Restoring export settings from backup...")
+	TGPrepareFolders.prepare(settings)
 	restore_settings()
 	restore_token()
 	
